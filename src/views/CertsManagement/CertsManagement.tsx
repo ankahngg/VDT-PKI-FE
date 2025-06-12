@@ -35,50 +35,6 @@ function CertsManagement() {
             <div className="text-2xl font-bold">
                 Quản lý chứng chỉ
             </div>
-            {/* filter */}
-            <div className="container mt-10 flex gap-4  ">
-                {/* search */}
-                <Input type="text" placeholder="Tìm kiếm" className="w-[200px]" />
-                {/* filter by ca */}
-                <Select>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="CA Ký" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="1">CA 1</SelectItem>
-                        <SelectItem value="2">CA 2</SelectItem>
-                        <SelectItem value="3">CA 3</SelectItem>
-                    </SelectContent>
-                </Select>
-                {/* filter by status */}
-                <Select>    
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Trạng thái" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="1">Active</SelectItem>
-                        <SelectItem value="2">Inactive</SelectItem>
-                    </SelectContent>
-                </Select>
-                {/* filter by key usage */}
-                <Select>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Key Usage" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="1">Ký số</SelectItem>
-                        <SelectItem value="2">Mã hóa</SelectItem>
-                        <SelectItem value="3">Ký số và mã hóa</SelectItem>
-                    </SelectContent>
-                </Select>
-                {/* filter by is ca */}
-                <div className="flex items-center gap-2">
-                    <Checkbox id="is-ca" />
-                    <Label htmlFor="is-ca">
-                        Là chứng chỉ CA
-                    </Label>
-                </div>
-            </div>
             <div className="flex items-center mt-4">
                 <Button className="hover:cursor-pointer" >Lọc</Button>
             </div>

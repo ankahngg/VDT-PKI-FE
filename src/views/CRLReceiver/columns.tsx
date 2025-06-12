@@ -44,7 +44,7 @@ export const columns: ColumnDef<CRL>[] = [
     header: "Ngày cập nhật",
     cell: ({ row }) => {
       if (row.original.updated_at === "") {
-        return <div>Không có</div>
+        return <div>Đang phát triển</div>
       }
       const date = new Date(row.original.updated_at);
       return <div>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</div>
