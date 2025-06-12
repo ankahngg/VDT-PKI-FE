@@ -1,7 +1,9 @@
+import CRLReceiver from "@/views/CRLReceiver/CRLReceiver";
+
 function Page() {
     return ( 
         <div>
-            <h1>Nhận danh sách CRL</h1>
+            <CRLReceiver />
         </div>
      );
 }

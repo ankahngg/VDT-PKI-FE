@@ -1,8 +1,8 @@
+import OCSPService from "@/views/OCSPService/OCSPService";
+
 function Page() {
     return ( 
-        <div>
-            <h1>Tra cứu chứng chỉ (OCSP)</h1>
-        </div>
+        <OCSPService />
      );
 }
 

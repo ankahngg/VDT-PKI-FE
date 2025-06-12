@@ -63,9 +63,9 @@ export function DataTable<TData, TValue>({
     <>
       <div className="flex gap-4 ">
           <Input placeholder="Tìm kiếm CA" className="w-[200px]"
-          value={table.getColumn("name")?.getFilterValue() as string || ""} 
-          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)} />
-          <Button onClick={() => table.getColumn("name")?.setFilterValue("")} className="hover:cursor-pointer">Xóa</Button>
+          value={table.getColumn("ca_name")?.getFilterValue() as string || ""} 
+          onChange={(event) => table.getColumn("ca_name")?.setFilterValue(event.target.value)} />
+          <Button onClick={() => table.getColumn("ca_name")?.setFilterValue("")} className="hover:cursor-pointer">Xóa</Button>
       </div>
       <div className="rounded-md border mt-5">
           <Table>

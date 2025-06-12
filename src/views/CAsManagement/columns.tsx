@@ -17,7 +17,8 @@ import { CA } from "@/models/CA"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 type CertDetailsProps = {
-  setCertDetails: (certDetails: number) => void;
+  setIsDetails: (isDetails: number) => void;
+  setIsRevoke: (isRevoke: number) => void;
   refreshData: () => void;
 }
 
@@ -42,53 +43,54 @@ export const columns: (props: CertDetailsProps) => ColumnDef<CA>[] = (props) => 
     accessorKey: "status",
     header: "Trạng thái",
     cell: ({ row }) => {
-      return <div className={`${row.original.status === "active" ? "text-green-500 font-bold" : "text-red-500 font-bold"}`}>{row.original.status}</div>
+      return <div className={`${row.original.status === "active" ? "text-green-500 font-bold" : "text-red-500 font-bold"}`}>
+        {row.original.status === "active" && <div className="text-green-500 font-bold">Đang hoạt động</div>}
+        {row.original.status === "revoked" && <div className="text-red-500 font-bold">Đã thu hồi</div>}
+        </div>
     }
   },
   {
     accessorKey: "created_at",
     header: "Ngày tạo",
+    cell: ({ row }) => {
+      // format date to dd/mm/yyyy
+      const date = new Date(row.original.created_at);
+      return <div>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</div>
+    }
   },
   {
-    accessorKey: "cert_pem",
-    header: "Cert PEM",
-    cell: ({ row, table }) => {
-      return <div className="text-blue-500 font-bold cursor-pointer underline" onClick={() => {
-        props.setCertDetails(table.getRowModel().rows.indexOf(row));
-      }}
-      >Xem chi tiết</div>
-    }
+    accessorKey: "key_usage",
+    header: "Key Usage",
   },
   {
     id: "actions",
     cell: ({ row }) => {
       const payment = row.original
  
-        async function deleteCA(id: string) {
-            const res = await fetch(`http://localhost:8080/ca/${id}`, {
-                method: "DELETE",
-            })
-            if (res.status === 200) {
-                alert("Xóa CA thành công")
-                props.refreshData();
-            } else {
-                alert("Xóa CA thất bại")
-            }
-        }
-        async function changeStatus(id: string) {
-            const res = await fetch(`http://localhost:8080/ca/${id}/status`, {
+        async function revokeCA(id: string) {
+            const res = await fetch(`http://localhost:8080/ca/${id}/revoke`, {
                 method: "PUT",
-                body: JSON.stringify({
-                    status: row.original.status === "active" ? "revoked" : "active"
-                })
             })
             if (res.status === 200) {
-                alert("Thay đổi trạng thái thành công")
+                alert("Thu hồi CA thành công")
                 props.refreshData();
             } else {
-                alert("Thay đổi trạng thái thất bại")
+                alert("Thu hồi CA thất bại")
             }
         }
+
+      async function downloadSingleCert(cert: string, name: string) {
+        const link = document.createElement("a");
+        link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(cert);
+        link.download = `${name}_cert.pem`;
+        link.click();
+        link.remove();
+
+      }
+
+      async function downloadChainCert(id: string) {
+        alert("Chức năng đang phát triển")
+      }
 
       return (
         <DropdownMenu>
@@ -100,11 +102,17 @@ export const columns: (props: CertDetailsProps) => ColumnDef<CA>[] = (props) => 
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem className=" cursor-pointer" onClick={() => {
-              deleteCA(row.original.id);
-            }}>Xóa</DropdownMenuItem>
+              props.setIsRevoke(row.index);
+            }}>Thu hồi</DropdownMenuItem>
             <DropdownMenuItem className=" cursor-pointer" onClick={() => {
-              changeStatus(row.original.id);
-            }}>{row.original.status === "active" ? "Thu hồi" : "Kích hoạt"}</DropdownMenuItem>
+              props.setIsDetails(row.index);
+            }}>Xem chi tiết</DropdownMenuItem>
+            <DropdownMenuItem className=" cursor-pointer" onClick={() => {
+              downloadSingleCert(row.original.cert_pem, row.original.name);
+            }}>Tải chứng chỉ đơn</DropdownMenuItem>
+            <DropdownMenuItem className=" cursor-pointer" onClick={() => {
+              downloadChainCert(row.original.id);
+            }}>Tải chứng chỉ chuỗi</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

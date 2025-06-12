@@ -36,8 +36,8 @@ function AddCA({setAddCA, idName, refreshData}: AddCAProps) {
         }
     }
     return ( 
-        <div className="absolute top-0 left-0 w-full h-full bg-white flex justify-center items-center">
-            <div className="border-2 border-gray-300 p-4 rounded-lg w-1/4  ">
+        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 ">
+            <div className="border-2 bg-white border-gray-300 p-4 rounded-lg w-1/4  ">
                 <div className="text-2xl font-bold text-center">Thêm CA</div>
                 <div className="flex flex-col gap-4">
                     <div>
